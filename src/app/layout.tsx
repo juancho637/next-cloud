@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { useEffect } from "react";
-import { AppRegistry } from "@/modules/app-registry.module";
-import { useAuthStore } from "@/modules/auth/infrastructure/auth.state";
+import AuthProvider from "@/modules/auth/infrastructure/components/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,30 +23,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { setToken } = useAuthStore();
-
-  useEffect(() => {
-    AppRegistry.registerModules(); // Se ejecuta al cargar la aplicación\
-  }, []);
-
-  useEffect(() => {
-    AppRegistry.registerModules(); // Se ejecuta al cargar la aplicación
-
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("auth_token="))
-      ?.split("=")[1];
-
-    if (token) {
-      setToken(token);
-    }
-  }, [setToken]);
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AuthProvider /> {/* Mantenemos la autenticación pero en un componente separado */}
+
         {children}
       </body>
     </html>

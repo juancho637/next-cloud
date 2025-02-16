@@ -1,5 +1,5 @@
 import { AuthUser } from "./auth-user";
 
 export interface AuthRepository {
-  signIn(email: string, password: string): Promise<AuthUser>;
+  signIn(username: string, password: string): Promise<AuthUser>;
 }

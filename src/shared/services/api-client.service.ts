@@ -1,4 +1,29 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosRequestConfig, AxiosError } from "axios";
+
+export interface ApiResponse<T> {
+  data: T;
+  path: string;
+  duration: string;
+  method: string;
+}
+
+export class ApiError extends Error {
+  statusCode: number;
+  details?: unknown;
+  path?: string;
+  method?: string;
+  duration?: string;
+
+  constructor(info: {message: string, statusCode: number, details?: unknown, path?: string, method?: string, duration?: string}) {
+    super(info.message);
+    this.statusCode = info.statusCode;
+    this.details = info.details;
+    this.path = info.path;
+    this.method = info.method;
+    this.duration = info.duration;
+    Object.setPrototypeOf(this, ApiError.prototype);
+  }
+}
 
 export class ApiClient {
   private axiosInstance: AxiosInstance;
@@ -25,34 +50,56 @@ export class ApiClient {
 
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
-      (error: unknown) => {
-        console.error("API Error:", error);
-        return Promise.reject(error);
+      (error: AxiosError) => {
+        console.error("🛑 API Error:", error);
+
+        if (error.response) {
+          const data = error.response.data as { codeError: string, message: string, path: string, method: string, duration: string };
+          console.log("error.response", error.response.data);
+          
+          throw new ApiError(
+            {
+              message: data.message,
+              statusCode: error.response.status,
+              details: data.codeError,
+            }
+          );
+        } else if (error.request) {
+          throw new ApiError({
+            message: "No se pudo conectar al servidor",
+            statusCode: 503,
+          });
+        } else {
+          throw new ApiError({
+            message: "Error inesperado",
+            statusCode: 500,
+          });
+        }
       }
     );
   }
 
-  async get<T>(url: string, config?: AxiosRequestConfig<T>): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.get<T>(url, config);
+  async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<ApiResponse<T>> = await this.axiosInstance.get(url, config);
     
-    return response.data;
+    return response.data.data;
   }
 
-  async post<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig<T>): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.post<T>(url, data, config);
+  async post<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<ApiResponse<T>> = await this.axiosInstance.post(url, data, config);
 
-    return response.data;
+    return response.data.data;
   }
 
-  async put<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig<T>): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.put<T>(url, data, config);
+  async put<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<ApiResponse<T>> = await this.axiosInstance.put(url, data, config);
 
-    return response.data;
+    return response.data.data;
   }
 
-  async delete<T>(url: string, config?: AxiosRequestConfig<T>): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.delete<T>(url, config);
+  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<ApiResponse<T>> = await this.axiosInstance.delete(url, config);
 
-    return response.data;
+    return response.data.data;
   }
 }
