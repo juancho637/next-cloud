@@ -11,16 +11,18 @@ export class AuthModule {
       return;
     }
 
-    // 📌 Obtener `ApiClient` del contenedor
-  const apiClient = appContainer.get<ApiClient>("ApiClient");
+    const apiClient = appContainer.get<ApiClient>("ApiClient");
 
     console.log("📌 Registrando dependencias de autenticación...");
+    const authRepository = new AuthV1Repository(apiClient);
+    const signInUseCase = new SignInUseCase(authRepository);
 
-  // Instanciación separada del contenedor
-  const authRepository = new AuthV1Repository(apiClient);
-  const signInUseCase = new SignInUseCase(authRepository);
-
-  appContainer.bind<AuthRepository>("AuthRepository").toConstantValue(authRepository);
-  appContainer.bind<SignInUseCase>("SignInUseCase").toConstantValue(signInUseCase);
+    appContainer
+      .bind<AuthRepository>("AuthRepository")
+      .toConstantValue(authRepository);
+    appContainer
+      .bind<SignInUseCase>("SignInUseCase")
+      .toConstantValue(signInUseCase);
+    console.log("✅ Dependencias de autenticación registradas correctamente.");
   }
 }

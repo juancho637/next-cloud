@@ -5,14 +5,19 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function DashboardPage() {
-  const { isAuthenticated, logout } = useAuthStore();
+  const { isAuthenticated, initializing, logout } = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/auth"); // Redirige a login si no está autenticado
+    if (!initializing && !isAuthenticated) {
+      router.push("/auth");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, initializing, router]);
+
+  // Mientras se inicializa, se puede mostrar un spinner o nada
+  if (initializing) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <main>

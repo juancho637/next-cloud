@@ -55,7 +55,6 @@ export class ApiClient {
 
         if (error.response) {
           const data = error.response.data as { codeError: string, message: string, path: string, method: string, duration: string };
-          console.log("error.response", error.response.data);
           
           throw new ApiError(
             {

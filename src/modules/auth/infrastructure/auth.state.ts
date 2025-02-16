@@ -5,22 +5,23 @@ import Cookies from "js-cookie";
 export interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
+  initializing: boolean; // Nuevo estado
   setToken: (token: string) => void;
   logout: () => void;
+  setInitializing: (init: boolean) => void;
 }
 
-// 📌 Creación del store para autenticación
 export const useAuthStore = createBaseStore<AuthState>((set) => ({
   token: Cookies.get("auth_token") || null,
   isAuthenticated: !!Cookies.get("auth_token"),
-
+  initializing: true, // inicia en true
   setToken: (token: string) => {
     Cookies.set("auth_token", token);
-    set((state) => ({ ...state, token, isAuthenticated: !!token }));
+    set({ token, isAuthenticated: !!token, initializing: false });
   },
-
   logout: () => {
     Cookies.remove("auth_token");
-    set((state) => ({ ...state, token: null, isAuthenticated: false }));
+    set({ token: null, isAuthenticated: false });
   },
+  setInitializing: (init: boolean) => set({ initializing: init }),
 }));

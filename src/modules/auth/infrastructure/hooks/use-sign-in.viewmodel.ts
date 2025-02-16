@@ -14,7 +14,6 @@ export const useSignInViewModel = () => {
   const signInUseCase = useRef<SignInUseCase | null>(null);
 
   useEffect(() => {
-    console.log("log from useSignInViewModel");
     if (!signInUseCase.current) {
       try {
         signInUseCase.current = appContainer.get<SignInUseCase>("SignInUseCase");
@@ -36,7 +35,6 @@ export const useSignInViewModel = () => {
     setError(null);
     try {
       const authUser = await signInUseCase.current.execute(email, password);
-      console.log(`user: ${JSON.stringify(authUser)}`);
       
       setToken(authUser.accessToken);
       router.push("/dashboard");
