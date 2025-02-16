@@ -13,19 +13,18 @@ export const createBaseStore = <T extends object>(
   storeCreator: StateCreator<T, [], [], T>
 ) => {
   return create<T & BaseState>((set, get, api) => {
-    
     const enhancedStore = storeCreator(
-        (partial) => set({ ...partial } as Partial<T & BaseState>),
-        get,
-        api
-      );
-    
-    return {
-    loading: false,
-    error: null,
-    setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
-    setError: (error: string | null) => set((state) => ({ ...state, error })),
-    ...enhancedStore,
-  }});
-};
+      (partial) => set({ ...partial } as Partial<T & BaseState>),
+      get,
+      api
+    );
 
+    return {
+      loading: false,
+      error: null,
+      setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
+      setError: (error: string | null) => set((state) => ({ ...state, error })),
+      ...enhancedStore,
+    };
+  });
+};

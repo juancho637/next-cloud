@@ -4,7 +4,7 @@ import { appContainer } from "@/shared/di/app.container";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../auth.state";
 
-export const useSignInViewModel = () => {  
+export const useSignInViewModel = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -16,8 +16,9 @@ export const useSignInViewModel = () => {
   useEffect(() => {
     if (!signInUseCase.current) {
       try {
-        signInUseCase.current = appContainer.get<SignInUseCase>("SignInUseCase");
-        
+        signInUseCase.current =
+          appContainer.get<SignInUseCase>("SignInUseCase");
+
         console.log("✅ SignInUseCase obtenido correctamente.");
       } catch (err) {
         console.error("🚨 Error obteniendo SignInUseCase:", err);
@@ -35,7 +36,7 @@ export const useSignInViewModel = () => {
     setError(null);
     try {
       const authUser = await signInUseCase.current.execute(email, password);
-      
+
       setToken(authUser.accessToken);
       router.push("/dashboard");
     } catch (err) {
@@ -51,5 +52,13 @@ export const useSignInViewModel = () => {
     }
   }, [token, router]);
 
-  return { email, setEmail, password, setPassword, loading, error, handleSignIn };
+  return {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    loading,
+    error,
+    handleSignIn,
+  };
 };
