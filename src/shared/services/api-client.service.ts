@@ -49,10 +49,11 @@ export class ApiClient {
       },
     });
 
-    this.setupInterceptors();
+    this.setupConfigInterceptors();
+    this.setupErrorInterceptors();
   }
 
-  private setupInterceptors(): void {
+  private setupConfigInterceptors(): void {
     this.axiosInstance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         // Agregar lógica para incluir un token aquí si es necesario
@@ -60,7 +61,8 @@ export class ApiClient {
       },
       (error: unknown) => Promise.reject(error)
     );
-
+  }
+  private setupErrorInterceptors(): void {
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error: AxiosError) => {
@@ -80,17 +82,12 @@ export class ApiClient {
             statusCode: error.response.status,
             details: data.codeError,
           });
-        } else if (error.request) {
-          throw new ApiError({
-            message: "No se pudo conectar al servidor",
-            statusCode: 503,
-          });
-        } else {
-          throw new ApiError({
-            message: "Error inesperado",
-            statusCode: 500,
-          });
         }
+
+        throw new ApiError({
+          message: "No se pudo conectar al servidor",
+          statusCode: 503,
+        });
       }
     );
   }

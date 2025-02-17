@@ -1,9 +1,11 @@
+import { ApiClientModule } from "@/shared/services/api-client.module";
 import { AuthModule } from "./auth/infrastructure/auth.module";
 
 export class AppRegistry {
   static registerModules() {
-    console.log("🔹 Registrando módulos...");
+    console.log("🔹 modules registering...");
+    ApiClientModule.register();
     AuthModule.register();
-    console.log("✅ Módulos registrados correctamente.");
+    console.log("✅ modules registered.");
   }
 }

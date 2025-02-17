@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { SignInUseCase } from "../../application/sign-in.usecase";
-import { appContainer } from "@/shared/di/app.container";
 import { useRouter } from "next/navigation";
+import { appContainer } from "@/shared/di/app.container";
+import { AUTH_PROVIDERS_TYPE } from "../../domain/auth-providers.type";
+import { SignInUseCase } from "../../application/sign-in.usecase";
 import { useAuthStore } from "../auth.state";
 
 export const useSignInViewModel = () => {
@@ -16,8 +17,9 @@ export const useSignInViewModel = () => {
   useEffect(() => {
     if (!signInUseCase.current) {
       try {
-        signInUseCase.current =
-          appContainer.get<SignInUseCase>("SignInUseCase");
+        signInUseCase.current = appContainer.get<SignInUseCase>(
+          AUTH_PROVIDERS_TYPE.SignInUseCase
+        );
 
         console.log("✅ SignInUseCase obtenido correctamente.");
       } catch (err) {
