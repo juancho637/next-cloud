@@ -1,17 +1,19 @@
 {
-  "name": "my-app",
+  "name": "next-clean-mvvm",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001 --turbopack",
+    "dev": "next dev -p 3000 --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-context": "generate-context"
   },
   "dependencies": {
     "axios": "^1.7.9",
     "inversify": "^6.2.2",
     "js-cookie": "^3.0.5",
+    "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -24,6 +26,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "contexto-generator": "^0.0.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "postcss": "^8",

@@ -5,9 +5,9 @@ export class SignInUseCase {
   constructor(private readonly authRepository: AuthRepository) {}
 
   async execute(email: string, password: string): Promise<AuthUser> {
-    // if (!email.includes("@")) throw new Error("Correo inválido");
+    if (!email.length) throw new Error("Userername not be empty");
 
-    if (password.length < 6) throw new Error("Contraseña muy corta");
+    if (!password.length) throw new Error("Password not be empty");
 
     return await this.authRepository.signIn(email, password);
   }

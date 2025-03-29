@@ -1,4 +1,4 @@
-import { ApiClient } from "@/shared/services/api-client.service";
+import { ApiClient } from "@common/adapters/api-client";
 import { AuthRepository } from "../../domain/auth-repository";
 import { AuthUser } from "../../domain/auth-user";
 

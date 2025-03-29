@@ -1,6 +1,7 @@
 "use client";
 
-import { useAuthStore } from "@/modules/auth/infrastructure/auth.state";
+import { useAuthStore } from "@modules/auth/infrastructure";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -10,7 +11,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!initializing && !isAuthenticated) {
-      router.push("/auth");
+      router.push("/sign-in");
     }
   }, [isAuthenticated, initializing, router]);
 
@@ -21,6 +22,9 @@ export default function DashboardPage() {
 
   return (
     <main>
+      <Link href="/" className="text-blue-600 hover:underline">
+        Home
+      </Link>
       <h1>Dashboard</h1>
       <p>Bienvenido al panel de usuario.</p>
       <button onClick={logout}>Cerrar sesión</button>

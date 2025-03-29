@@ -1,0 +1,18 @@
+{
+  "ignoreDirs": [
+    ".git",
+    "node_modules",
+    ".vscode",
+    ".next",
+    "public",
+    "dist"
+  ],
+  "ignoreFiles": [
+    "package-lock.json",
+    ".env",
+    ".gitignore",
+    "favicon.ico",
+    ".DS_Store"
+  ],
+  "outDir": "./"
+}

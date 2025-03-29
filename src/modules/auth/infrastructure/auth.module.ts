@@ -1,10 +1,12 @@
-import { appContainer } from "@/shared/di/app.container";
-import { ApiClient } from "@/shared/services/api-client.service";
-import { SignInUseCase } from "../application/sign-in.usecase";
+import { appContainer } from "@common/di";
+import {
+  ApiClient,
+  API_CLIENT_PROVIDERS_TYPE,
+} from "@common/adapters/api-client";
 import { AuthRepository } from "../domain/auth-repository";
-import { AuthV1Repository } from "./repositories/auth-v1.repository";
 import { AUTH_PROVIDERS_TYPE } from "../domain/auth-providers.type";
-import { API_CLIENT_PROVIDERS_TYPE } from "@/shared/services/api-client-providers.type";
+import { SignInUseCase } from "../application/sign-in.usecase";
+import { AuthV1Repository } from "./repositories/auth-v1.repository";
 
 export class AuthModule {
   static register() {

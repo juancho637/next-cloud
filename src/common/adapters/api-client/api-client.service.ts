@@ -104,10 +104,9 @@ export class ApiClient {
     data?: D,
     config?: AxiosRequestConfig
   ): Promise<T> {
-    const response: AxiosResponse<ApiResponse<T>> =
-      await this.axiosInstance.post(url, data, config);
-
-    return response.data.data;
+    const response = await this.axiosInstance.post<T>(url, data, config);
+    // Con esto, 'response.data' es exactamente { "response": 1 }
+    return response.data;
   }
 
   async put<T, D = unknown>(

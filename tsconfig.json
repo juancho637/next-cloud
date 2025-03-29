@@ -19,7 +19,19 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      // Common
+      "@common/helpers": ["./src/common/helpers/index"],
+      "@common/components": ["./src/common/components/index"],
+      "@common/di": ["./src/common/di/index"],
+      "@common/store/*": ["./src/common/store/*"],
+      "@common/adapters/configuration": [
+        "./src/common/adapters/configuration/index"
+      ],
+      "@common/adapters/api-client": ["./src/common/adapters/api-client/index"],
+
+      // Modules
+      "@modules/auth/*": ["./src/modules/auth/*"],
+      "@modules/prediction/*": ["./src/modules/prediction/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

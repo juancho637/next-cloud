@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { appContainer } from "@/shared/di/app.container";
+import { appContainer } from "@common/di";
 import { AUTH_PROVIDERS_TYPE } from "../../domain/auth-providers.type";
 import { SignInUseCase } from "../../application/sign-in.usecase";
 import { useAuthStore } from "../auth.state";
 
 export const useSignInViewModel = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -55,6 +56,8 @@ export const useSignInViewModel = () => {
   }, [token, router]);
 
   return {
+    showPassword,
+    setShowPassword,
     email,
     setEmail,
     password,

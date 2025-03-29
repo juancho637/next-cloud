@@ -1,4 +1,4 @@
-import { createBaseStore } from "@/shared/store/base.store";
+import { createBaseStore } from "@common/store/base.store";
 import Cookies from "js-cookie";
 
 // 📌 Interfaz específica del estado de autenticación

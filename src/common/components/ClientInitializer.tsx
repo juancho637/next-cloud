@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuthStore } from "@/modules/auth/infrastructure/auth.state";
-import { AppRegistry } from "@/modules/app-registry.module";
+import { AppRegistry } from "../../modules/app-registry.module";
+import { useAuthStore } from "@modules/auth/infrastructure";
 
-export default function AuthProvider() {
+export default function ClientInitializer() {
   const { setToken, setInitializing } = useAuthStore();
 
   useEffect(() => {
-    // Inicializa las dependencias en el cliente
     AppRegistry.registerModules();
 
     // Lee el token desde las cookies

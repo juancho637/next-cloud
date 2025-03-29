@@ -1,4 +1,4 @@
-import { appContainer } from "../di/app.container";
+import { appContainer } from "@common/di";
 import { API_CLIENT_PROVIDERS_TYPE } from "./api-client-providers.type";
 import { ApiClient } from "./api-client.service";
 
